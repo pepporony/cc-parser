@@ -1,8 +1,10 @@
 # Card reconcile
 
-Match a Kasikorn Bank (KBank) credit-card e-statement PDF to a CSV export from Expense Manager.
+Match a Kasikorn Bank (KBank) credit-card e-statement to a CSV export from Expense Manager.
 
-The PDF has to be the file from the bank (Quadient Inspire). A browser "print to PDF" is not parsed. If the file is still locked, the password is used only to decrypt that upload and is not stored.
+This parser is for KBank e-statements produced by Quadient Inspire only. Other banks are not parsed. A browser "print to PDF" of a KBank statement is not parsed either. If the file is still locked, the password is used only to decrypt that upload and is not stored.
+
+Licensed under the [MIT License](LICENSE).
 
 ## Statement lines
 
@@ -30,12 +32,23 @@ That is two dates (`DD/MM/YY`), a description, and an amount. The city or site s
 | `kbank_pdf.py` | Decrypt and read statement lines |
 | `reconcile.py` | CSV load, payments, reversals, matching |
 
+## Try it
+
+`samples/example-statement.pdf` and `samples/example-expenses.csv` are fake. They are not a bank file.
+
+Upload those two, then press Process. The sample has two cafe charges, a bookshop charge and its reversal, and a card payment. Reading stops at `TOTAL BALANCE`, so the line after that marker is ignored. The payment is dropped. The bookshop pair is removed as a reversal. The two cafe lines match the CSV on amount and date.
+
 ## Run
 
-Python 3.12, with `streamlit` and `pypdf`:
+Python 3.12, with `streamlit`, `pypdf`, and `pytest`:
 
 ```bash
+pip install -r requirements.txt
 streamlit run app.py
 ```
 
 Upload the PDF and the CSV, then press Process.
+
+```bash
+pytest
+```

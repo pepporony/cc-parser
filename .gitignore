@@ -1,4 +1,6 @@
 *.pdf
 *.csv
+!samples/example-statement.pdf
+!samples/example-expenses.csv
 .venv/
 __pycache__/
